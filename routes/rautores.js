@@ -24,7 +24,26 @@ module.exports = function(app, swig) {
     });
 
     app.get('/autores/agregar', function (req, res) {
-        let respuesta = swig.renderFile('views/autores-agregar.html', {});
+        let roles = [{
+            "nombre" : "Cantante",
+            "clave" : "cantante"
+        },{
+            "nombre" : "Batería",
+            "clave" : "bateria"
+        },{
+            "nombre" : "Guitarrista",
+            "clave" : "guitarrista"
+        },{
+            "nombre" : "Bajista",
+            "clave" : "bajista"
+        },{
+            "nombre" : "Teclista",
+            "clave" : "teclista"
+        }
+        ];
+        let respuesta = swig.renderFile('views/autores-agregar.html', {
+            roles: roles
+        });
         res.send(respuesta);
     })
 
