@@ -51,9 +51,34 @@ module.exports = function(app, swig) {
         let respuesta = 'id: ' + req.params.id;
         res.send(respuesta);
     });
-    app.get('/autores/:rol/:id', function(req, res) {
-        let respuesta = 'id: ' + req.params.id + '<br>'
-            + 'Rol: ' + req.params.genero;
+
+    app.get('/autores/filtrar/:rol', function(req, res) {
+        let respuesta = "";
+        let autores = [{
+            "nombre" : "Mortadelo",
+            "grupo" : "Mortadelo y Filemón",
+            "rol" : "Bajista"
+        },{
+            "nombre" : "Ortega y Gasset",
+            "grupo" : "Dos hombres y un destino",
+            "rol" : "Cantante"
+        },{
+            "nombre" : "Ramon y Cajal",
+            "grupo" : "Somos uno, no dos",
+            "rol" : "Guitarrista"
+        }
+        ];
+        let counter = 0;
+        autores.forEach(function(value){
+            if(value.rol === req.params.rol ) {
+                counter++;
+                respuesta += "Autor " + counter + ": " + value.nombre +"<br>"
+                                + "\t Grupo: " + value.grupo + "<br>"
+                                + "\t Rol: " + value.rol
+                                + "<br>";
+            }
+        });
+
         res.send(respuesta);
     });
 
