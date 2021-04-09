@@ -12,6 +12,9 @@
 			<h2>{{ cancion.nombre }}</h2>
 			<p>{{ cancion.autor }}</p>
 			<p>{{ cancion.genero }}</p>
+			{% for comentario in comentarios %}
+				<p>Comentario de {{ comentario.autor }} : {{ comentario.texto }}</p>
+			{% endfor %}
 			<button type="button" class="btn btn-primary pull-right">{{ cancion.precio }}
 				€</button>
 			<!-- Cambiar el precio por "reproducir" si ya está comprada -->
@@ -54,5 +57,15 @@
 				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
 			  </div>
 		  </div>
+	  </div>
+      <div>
+		  <form class="form-horizontal" method="post" action="/comentarios/{{ cancion._id.toString() }}">
+			  <div class="form-group">
+				  <label class="control-label col-sm-2" for="comment">Comentarios:</label>
+				  <textarea type="text" class="form-control" name="comment"
+							placeholder="Inserta aquí tus comentarios"></textarea>
+				  <button type="submit" class="btn btn-primary">Enviar comentario</button>
+			  </div>
+		  </form>
 	  </div>
 {% endblock %}
