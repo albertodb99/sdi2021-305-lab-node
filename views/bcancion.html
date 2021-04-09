@@ -15,8 +15,9 @@
 			{% for comentario in comentarios %}
 				<p>Comentario de {{ comentario.autor }} : {{ comentario.texto }}</p>
 			{% endfor %}
-			<button type="button" class="btn btn-primary pull-right">{{ cancion.precio }}
-				€</button>
+			<a class="btn btn-primary pull-right"
+			   href="/cancion/comprar/{{cancion._id.toString()}}">{{ cancion.precio
+				}} €</a>
 			<!-- Cambiar el precio por "reproducir" si ya está comprada -->
 		</div>
 	</div>
