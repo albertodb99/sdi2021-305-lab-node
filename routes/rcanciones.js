@@ -114,24 +114,42 @@ module.exports = function(app, swig, gestorBD) {
             } else {
                 let cancionId = gestorBD.mongo.ObjectID(req.params.id);
                 let usuario = req.session.usuario;
+                let configuracion = {
+                    url: "https://www.freeforexapi.com/api/live?pairs=EURUSD",
+                    method: "get",
+                    headers: {
+                        "token": "ejemplo",
+                    }
+                }
+                let rest = app.get("rest");
+                let respuesta;
+                rest(configuracion, function (error, response, body) {
+                    console.log("cod: " + response.statusCode + " Cuerpo :" + body);
+                    let objetoRespuesta = JSON.parse(body);
+                    let cambioUSD = objetoRespuesta.rates.EURUSD.rate;
+                    // nuevo campo "usd"
+                    canciones[0].usd = cambioUSD * canciones[0].precio;
+                    respuesta = swig.renderFile('views/bcancion.html',
+                        {
+                            cancion: canciones[0]
+                        });
+                })
                 usuarioPuedeComprar(usuario, cancionId, function(comprar){
                     gestorBD.obtenerComentarios(criterioComentarios, function(comentarios){
-                        let respuesta;
                         if(comentarios == null){
                             respuesta = swig.renderFile('views/bcancion.html',
                                 {
-                                    cancion : canciones[0],
+                                    cancion: canciones[0],
                                     puedecomprar:comprar
                                 });
                         }else{
                             respuesta = swig.renderFile('views/bcancion.html',
                                 {
-                                    cancion : canciones[0],
+                                    cancion: canciones[0],
                                     comentarios : comentarios,
                                     puedecomprar:comprar
                                 });
                         }
-                        console.log(comprar);
                         res.send(respuesta);
                     });
                 });
