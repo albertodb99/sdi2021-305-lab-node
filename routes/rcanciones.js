@@ -225,7 +225,11 @@ module.exports = function(app, swig, gestorBD) {
                     }
                 });
             }else{
-                res.redirect("/errors?mensaje=Ya habías comprado la canción o eres el autor&tipoMensaje=alert-danger");
+                req.session.errors={
+                    mensaje:"Ya habías comprado la canción o eres el autor",
+                    tipoMensaje:"alert-danger"
+                }
+                res.redirect("/errors");
             }
         });
     });
