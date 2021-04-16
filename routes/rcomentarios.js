@@ -8,7 +8,7 @@ module.exports = function(app, swig, gestorBD) {
 
        gestorBD.insertarComentario(comentario, function(id){
            if(id == null){
-               res.send("Error al insertar el comentario")
+               res.redirect("/errors?mensaje=Error al insertar el comentario&tipoMensaje=alert-danger");
            }else{
                res.redirect('/cancion/' + comentario.cancion_id);
            }
