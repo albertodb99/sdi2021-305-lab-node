@@ -27,7 +27,8 @@
 </div>
 
 <script>
-    function agregarCancion( ) {
+    function agregarCancion() {
+        //Complementario 1
         $.ajax({
             url: URLbase + "/cancion",
             type: "POST",
@@ -43,8 +44,22 @@
                 $( "#contenedor-principal" ).load( "widget-canciones.html");
 
             },
-            error : function (error){
-                $( "#contenedor-principal" ).load("widget-login.html");
+            error: function (error) {
+                console.log(error); // <-- Prueba
+                $("#div-errores").remove();
+                let errores = error.responseJSON.errores;
+                if (errores != null && errores.length>0){
+                    $("#widget-agregar")
+                        .prepend("<div id = 'div-errores' class='alert alert-danger'>" +
+                            "<ul id = 'ul-errores'></ul></div>");
+                    for (i = 0; i < errores.length; i++) {
+                        $("#ul-errores").append("<li >"+ errores[i] + "</li>");
+                    }
+                } else {
+                    $("#widget-agregar")
+                        .prepend("<div id = 'div-errores' class='alert alert-danger'>Se ha "+
+                            "producido un error no controlado</div>");
+                }
             }
         });
     }
